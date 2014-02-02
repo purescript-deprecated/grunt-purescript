@@ -1,11 +1,11 @@
 {
   "name": "grunt-purescript",
   "description": "Compile PureScript files.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/garyb/grunt-purescript",
   "author": {
     "name": "Gary Burgess",
-    "url": "https://github.com/garyb"
+    "email": "gary.burgess@gmail.com"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
       "url": "https://github.com/garyb/grunt-purescript/blob/master/LICENSE-MIT"
     }
   ],
+  "main": "gruntfile.js",
   "engines": {
     "node": ">= 0.8.0"
   },
@@ -36,6 +37,8 @@
     "grunt": "~0.4.2"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin",
+    "grunt",
+    "purescript"
   ]
 }
