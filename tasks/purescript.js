@@ -73,8 +73,7 @@ module.exports = function (grunt) {
             runMain: false,
             runtimeTypeChecks: false,
             tco: false,
-            separator: grunt.util.linefeed,
-            punctuation: "."
+            separator: grunt.util.linefeed
         });
 
         options.separator = grunt.util.normalizelf(options.separator);
