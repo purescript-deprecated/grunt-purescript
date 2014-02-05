@@ -72,11 +72,8 @@ module.exports = function (grunt) {
             noPrelude: false,
             runMain: false,
             runtimeTypeChecks: false,
-            tco: false,
-            separator: grunt.util.linefeed
+            tco: false
         });
-
-        options.separator = grunt.util.normalizelf(options.separator);
 
         var callback = this.async();
         var files = this.files;
