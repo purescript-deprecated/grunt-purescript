@@ -1,6 +1,6 @@
 /*
  * grunt-purescript
- * https://github.com/garyb/grunt-purescript
+ * https://github.com/purescript/grunt-purescript
  *
  * Copyright (c) 2014 Gary Burgess
  * Licensed under the MIT license.
