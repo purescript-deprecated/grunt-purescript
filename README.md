@@ -37,11 +37,35 @@ grunt.initConfig({
 
 ### Options
 
+#### options.browserNamespace
+Type: `String`
+Default value: `PS`
+
+Invokes the `--browser-namespace` compiler flag with the specified argument. Specifies the namespace that PureScript modules will be exported to when running in the browser.
+
+#### options.entryPoint
+Type: `String`
+Default value: none
+
+Invokes the `--entry-point` compiler flag with the specified argument. Specifies the module which is the entry point for the compiler. All code which is not a transitive dependency of this module will be removed.
+
+#### options.externs
+Type: `String`
+Default value: none
+
+Invokes the `--externs` compiler flag with the specified argument. Generates a `.e.ps` file for foreign imports.
+
 #### options.magicDo
 Type: `Boolean`
 Default value: `false`
 
 Toggles the `--magic-do` compiler flag. Overloads the `do` keyword to inline calls to `>>=` for the `Eff` monad to generate more efficient code when enabled.
+
+#### options.noOpts
+Type: `Boolean`
+Default value: `false`
+
+Toggles the `--no-opts` compiler flag. Skips the optimization phase for the generated JavaScript when enabled.
 
 #### options.noPrelude
 Type: `Boolean`

@@ -14,10 +14,17 @@ module.exports = function (grunt) {
 
     var flagOptions = {
         magicDo: "--magic-do",
+        noOpts: "--no-opts",
         noPrelude: "--no-prelude",
         runMain: "--run-main",
         runtimeTypeChecks: "--runtime-type-checks",
         tco: "--tco",
+    };
+
+    var argumentOptions = {
+        browserNamespace: "--browser-namespace",
+        entryPoint: "--entry-point",
+        externs: "--externs",
     };
 
     var compile = function (dest, src, options, callback) {
@@ -37,6 +44,15 @@ module.exports = function (grunt) {
             if (flagOptions.hasOwnProperty(k)) {
                 if (options[k] === true) {
                     args.push(flagOptions[k]);
+                }
+            }
+        }
+
+        // Add any option arguments
+        for (var k in argumentOptions) {
+            if (argumentOptions.hasOwnProperty(k)) {
+                if (typeof options[k] === 'string') {
+                    args.push(argumentOptions[k] + "=" + options[k]);
                 }
             }
         }
