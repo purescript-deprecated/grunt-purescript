@@ -14,14 +14,21 @@ module.exports = function (grunt) {
 
     var flagOptions = {
         magicDo: "--magic-do",
+        noOpts: "--no-opts",
         noPrelude: "--no-prelude",
         runMain: "--run-main",
         runtimeTypeChecks: "--runtimeTypeChecks",
         tco: "--tco",
     };
 
+    var argumentOptions = {
+        browserNamespace: "--browser-namespace",
+        entryPoint: "--entry-point",
+        externs: "--externs",
+    };
+
     var compile = function (dest, src, options, callback) {
-       
+
         // Use the input file list as the initial arguments
         var args = src.filter(function (filepath) {
             if (!grunt.file.exists(filepath)) {
@@ -31,7 +38,7 @@ module.exports = function (grunt) {
                 return true;
             }
         });
-        
+
         // Add any option flags
         for (var k in flagOptions) {
             if (flagOptions.hasOwnProperty(k)) {
@@ -40,13 +47,22 @@ module.exports = function (grunt) {
                 }
             }
         }
-        
+
+        // Add any option arguments
+        for (var k in argumentOptions) {
+            if (argumentOptions.hasOwnProperty(k)) {
+                if (typeof options[k] === 'string') {
+                    args.push(argumentOptions[k] + "=" + options[k]);
+                }
+            }
+        }
+
         // Ensure the output directory exists as psc doesn't create it
         grunt.file.mkdir(path.dirname(dest));
-        
+
         // Add the destination file output argument
         args.push("--output=" + dest);
-        
+
         // Run the compiler
         return grunt.util.spawn({
             cmd: "psc",
@@ -62,7 +78,7 @@ module.exports = function (grunt) {
                 callback();
             }
         });
-    
+
     };
 
     grunt.registerMultiTask("purescript", "Compile PureScript files.", function () {
@@ -92,5 +108,5 @@ module.exports = function (grunt) {
         compileNext();
 
     });
-  
+
 };
