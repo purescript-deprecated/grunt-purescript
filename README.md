@@ -106,7 +106,7 @@ purescript: {
         options: {
             magicDo: true,
             tco: true,
-            runMain: true
+            main: "App"
         },
         files: {
             "path/to/purescript/output.js": "path/to/source/**/*.purs",
