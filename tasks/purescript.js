@@ -16,14 +16,12 @@ module.exports = function (grunt) {
         magicDo: "--magic-do",
         noOpts: "--no-opts",
         noPrelude: "--no-prelude",
-        runMain: "--run-main",
         runtimeTypeChecks: "--runtime-type-checks",
-        tco: "--tco",
+        tco: "--tco"
     };
 
     var argumentOptions = {
         browserNamespace: "--browser-namespace",
-        entryPoint: "--entry-point",
         externs: "--externs",
     };
 
@@ -56,6 +54,26 @@ module.exports = function (grunt) {
                 }
             }
         }
+        
+        // Add modules to be kept after dead code elimination
+        if (options.modules) {
+            if (typeof options.modules === "string") {
+                args.push("--module=" + options.modules);
+            } else {
+                options.modules.forEach(function (module) {
+                    args.push("--module=" + module);
+                });
+            }
+        }
+        
+        // Add the main module argument
+        if (options.main) {
+            if (options.main === true) {
+                args.push("--main");
+            } else {
+                args.push("--main=" + options.main);
+            }
+        }
 
         // Ensure the output directory exists as psc doesn't create it
         grunt.file.mkdir(path.dirname(dest));
@@ -83,13 +101,7 @@ module.exports = function (grunt) {
 
     grunt.registerMultiTask("purescript", "Compile PureScript files.", function () {
 
-        var options = this.options({
-            magicDo: false,
-            noPrelude: false,
-            runMain: false,
-            runtimeTypeChecks: false,
-            tco: false
-        });
+        var options = this.options();
 
         var callback = this.async();
         var files = this.files;

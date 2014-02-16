@@ -43,12 +43,6 @@ Default value: `PS`
 
 Invokes the `--browser-namespace` compiler flag with the specified argument. Specifies the namespace that PureScript modules will be exported to when running in the browser.
 
-#### options.entryPoint
-Type: `String`
-Default value: none
-
-Invokes the `--entry-point` compiler flag with the specified argument. Specifies the module which is the entry point for the compiler. All code which is not a transitive dependency of this module will be removed.
-
 #### options.externs
 Type: `String`
 Default value: none
@@ -73,11 +67,17 @@ Default value: `false`
 
 Toggles the `--no-prelude` compiler flag. Omits the Prelude from the generated JavaScript when enabled.
 
-#### options.runMain
-Type: `Boolean`
+#### options.main
+Type: `Boolean` or `String`
 Default value: `false`
 
-Toggles the `--run-main` compiler flag. Generates a call to `Main.main` after all other generated JavaScript when enabled.
+Toggles the `--main` compiler flag. Can be set to `true` or the name of a module in which a `main` function resides. When enabled, a call to `main` will be added after all other generated JavaScript. When set to `true`, the module name will be assumed to be `Main`.
+
+#### options.modules
+Type: `String` or `Array`
+Default value: none
+
+Enables dead code elimination, ensuring that the named module (or list of modules) are included in the generated JavaScript, along with all their dependencies.
 
 #### options.runtimeTypeChecks
 Type: `Boolean`
