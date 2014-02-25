@@ -23,7 +23,12 @@ module.exports = function (grunt) {
     var argumentOptions = {
         browserNamespace: "--browser-namespace",
         externs: "--externs",
+        module: "--module"
     };
+
+    var betterTypeof = function (obj) {
+        return Object.prototype.toString.call(obj).slice(8, -1);
+    }
 
     var compile = function (dest, src, options, callback) {
 
@@ -49,12 +54,17 @@ module.exports = function (grunt) {
         // Add any option arguments
         for (var k in argumentOptions) {
             if (argumentOptions.hasOwnProperty(k)) {
-                if (typeof options[k] === 'string') {
+                if (betterTypeof(options[k]) === 'String') {
                     args.push(argumentOptions[k] + "=" + options[k]);
+                } else if (betterTypeof(options[k]) === 'Array') {
+                    var argArray = options[k];
+                    for (var i = 0, len = argArray.length; i < len; ++i) {
+                        args.push(argumentOptions[k] + "=" + argArray[i]);
+                    };
                 }
             }
         }
-        
+
         // Add modules to be kept after dead code elimination
         if (options.modules) {
             if (typeof options.modules === "string") {
@@ -65,7 +75,7 @@ module.exports = function (grunt) {
                 });
             }
         }
-        
+
         // Add the main module argument
         if (options.main) {
             if (options.main === true) {

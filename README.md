@@ -55,6 +55,18 @@ Default value: `false`
 
 Toggles the `--magic-do` compiler flag. Overloads the `do` keyword to inline calls to `>>=` for the `Eff` monad to generate more efficient code when enabled.
 
+#### options.main
+Type: `Boolean` or `String`
+Default value: `false`
+
+Toggles the `--main` compiler flag. Can be set to `true` or the name of a module in which a `main` function resides. When enabled, a call to `main` will be added after all other generated JavaScript. When set to `true`, the module name will be assumed to be `Main`.
+
+#### options.module
+Type: `String` or `Array`
+Default value: none
+
+Enables dead code elimination, ensuring that the named module (or list of modules) are included in the generated JavaScript, along with all their dependencies.
+
 #### options.noOpts
 Type: `Boolean`
 Default value: `false`
@@ -66,18 +78,6 @@ Type: `Boolean`
 Default value: `false`
 
 Toggles the `--no-prelude` compiler flag. Omits the Prelude from the generated JavaScript when enabled.
-
-#### options.main
-Type: `Boolean` or `String`
-Default value: `false`
-
-Toggles the `--main` compiler flag. Can be set to `true` or the name of a module in which a `main` function resides. When enabled, a call to `main` will be added after all other generated JavaScript. When set to `true`, the module name will be assumed to be `Main`.
-
-#### options.modules
-Type: `String` or `Array`
-Default value: none
-
-Enables dead code elimination, ensuring that the named module (or list of modules) are included in the generated JavaScript, along with all their dependencies.
 
 #### options.runtimeTypeChecks
 Type: `Boolean`
