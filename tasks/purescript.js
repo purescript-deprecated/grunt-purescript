@@ -49,12 +49,16 @@ module.exports = function (grunt) {
         // Add any option arguments
         for (var k in argumentOptions) {
             if (argumentOptions.hasOwnProperty(k)) {
+                if (k === 'externs') {
+                    // Ensure the externs directory exists as psc doesn't create it
+                    grunt.file.mkdir(path.dirname(options[k]));
+                }
                 if (typeof options[k] === 'string') {
                     args.push(argumentOptions[k] + "=" + options[k]);
                 }
             }
         }
-        
+
         // Add modules to be kept after dead code elimination
         if (options.modules) {
             if (typeof options.modules === "string") {
@@ -65,7 +69,7 @@ module.exports = function (grunt) {
                 });
             }
         }
-        
+
         // Add the main module argument
         if (options.main) {
             if (options.main === true) {
