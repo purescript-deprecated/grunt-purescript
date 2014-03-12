@@ -38,23 +38,23 @@ module.exports = function (grunt) {
         });
 
         // Add any option flags
-        for (var k in flagOptions) {
-            if (flagOptions.hasOwnProperty(k)) {
-                if (options[k] === true) {
-                    args.push(flagOptions[k]);
+        for (var flag in flagOptions) {
+            if (flagOptions.hasOwnProperty(flag)) {
+                if (options[flag] === true) {
+                    args.push(flagOptions[flag]);
                 }
             }
         }
 
         // Add any option arguments
-        for (var k in argumentOptions) {
-            if (argumentOptions.hasOwnProperty(k)) {
-                if (k === 'externs') {
+        for (var arg in argumentOptions) {
+            if (argumentOptions.hasOwnProperty(arg)) {
+                if (arg === "externs") {
                     // Ensure the externs directory exists as psc doesn't create it
-                    grunt.file.mkdir(path.dirname(options[k]));
+                    grunt.file.mkdir(path.dirname(options[arg]));
                 }
-                if (typeof options[k] === 'string') {
-                    args.push(argumentOptions[k] + "=" + options[k]);
+                if (typeof options[arg] === "string") {
+                    args.push(argumentOptions[arg] + "=" + options[arg]);
                 }
             }
         }
