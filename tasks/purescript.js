@@ -8,8 +8,6 @@
 
 "use strict";
 
-var path = require("path");
-
 module.exports = function (grunt) {
 
     var flagOptions = {
@@ -49,10 +47,6 @@ module.exports = function (grunt) {
         // Add any option arguments
         for (var arg in argumentOptions) {
             if (argumentOptions.hasOwnProperty(arg)) {
-                if (arg === "externs") {
-                    // Ensure the externs directory exists as psc doesn't create it
-                    grunt.file.mkdir(path.dirname(options[arg]));
-                }
                 if (typeof options[arg] === "string") {
                     args.push(argumentOptions[arg] + "=" + options[arg]);
                 }
@@ -78,9 +72,6 @@ module.exports = function (grunt) {
                 args.push("--main=" + options.main);
             }
         }
-
-        // Ensure the output directory exists as psc doesn't create it
-        grunt.file.mkdir(path.dirname(dest));
 
         // Add the destination file output argument
         args.push("--output=" + dest);
