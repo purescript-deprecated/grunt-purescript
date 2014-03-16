@@ -15,6 +15,7 @@ module.exports = function (grunt) {
         noOpts: "--no-opts",
         noPrelude: "--no-prelude",
         runtimeTypeChecks: "--runtime-type-checks",
+        make: "--make",
         tco: "--tco"
     };
 
@@ -24,7 +25,9 @@ module.exports = function (grunt) {
     };
 
     var compile = function (dest, src, options, callback) {
-
+    
+        var isMakeMode = options.make === true;
+        
         // Use the input file list as the initial arguments
         var args = src.filter(function (filepath) {
             if (!grunt.file.exists(filepath)) {
@@ -87,7 +90,11 @@ module.exports = function (grunt) {
                 grunt.log.error(result.stdout);
                 callback(err);
             } else {
-                grunt.log.ok("Created file " + dest + ".");
+                if (isMakeMode) {
+                    grunt.log.ok("Make was successful.");
+                } else {
+                    grunt.log.ok("Created file " + dest + ".");
+                }
                 callback();
             }
         });

@@ -73,6 +73,12 @@ Default value: `false`
 
 Toggles the `--main` compiler flag. Can be set to `true` or the name of a module in which a `main` function resides. When enabled, a call to `main` will be added after all other generated JavaScript. When set to `true`, the module name will be assumed to be `Main`.
 
+#### options.make
+Type: `Boolean`
+Default value: `false`
+
+Toggles the `--make` compiler flag. When enabled the `--main` and `--module` options will have no effect and the output will be generated in `js/` and `externs/` folders.
+
 #### options.modules
 Type: `String` or `Array`
 Default value: none
