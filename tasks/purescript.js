@@ -20,7 +20,12 @@ module.exports = function (grunt) {
 
     var argumentOptions = {
         browserNamespace: "--browser-namespace",
-        externs: "--externs",
+        externs: "--externs"
+    };
+    
+    var moduleOptions = {
+        modules: "module",
+        codegen: "codegen"
     };
 
     var compile = function (dest, src, options, callback) {
@@ -28,14 +33,20 @@ module.exports = function (grunt) {
         // Get source file and common command line arguments
         var args = getDefaultArgs(src, options);
 
-        // Add modules to be kept after dead code elimination
-        if (options.modules) {
-            if (typeof options.modules === "string") {
-                args.push("--module=" + options.modules);
-            } else {
-                options.modules.forEach(function (module) {
-                    args.push("--module=" + module);
-                });
+        // Add arguments that can accept a list of module names
+        for (var mo in moduleOptions) {
+            if (moduleOptions.hasOwnProperty(mo)) {
+                var option = options[mo];
+                if (option) {
+                    var optionArg = moduleOptions[mo];
+                    if (typeof option === "string") {
+                        args.push("--" + optionArg + "=" + option);
+                    } else {
+                        option.forEach(function (module) {
+                            args.push("--" + optionArg + "=" + module);
+                        });
+                    }
+                }
             }
         }
 

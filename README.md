@@ -43,6 +43,12 @@ Default value: `PS`
 
 Invokes the `--browser-namespace` compiler flag with the specified argument. Specifies the namespace that PureScript modules will be exported to when running in the browser.
 
+#### options.codegen
+Type: `String` or `Array`
+Default value: none
+
+Specifies which module(s) to include in the generated Javascript and externs files.
+
 #### options.externs
 Type: `String`
 Default value: none
