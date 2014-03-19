@@ -73,12 +73,6 @@ Default value: `false`
 
 Toggles the `--main` compiler flag. Can be set to `true` or the name of a module in which a `main` function resides. When enabled, a call to `main` will be added after all other generated JavaScript. When set to `true`, the module name will be assumed to be `Main`.
 
-#### options.make
-Type: `Boolean`
-Default value: `false`
-
-Toggles the `--make` compiler flag. When enabled the `--main` and `--module` options will have no effect and the output will be generated in `js/` and `externs/` folders.
-
 #### options.modules
 Type: `String` or `Array`
 Default value: none
@@ -96,6 +90,37 @@ Type: `Boolean`
 Default value: `false`
 
 Toggles the `--tco` compiler flag. Performs tail-call elimination on the generated JavaScript when enabled.
+
+## The "purescript-make" task
+
+### Overview
+This task runs the `psc-make` executable, which will compile modules to their own `.js` and `.externs` files in the `js/` and `externs/` folders respectively. This mode is useful when developing large libraries, since it avoids recompiling unchanged modules.
+
+In your project's Gruntfile, add a section named `purescript-make` to the data object passed into `grunt.initConfig()`.
+
+```js
+grunt.initConfig({
+  "purescript-make": {
+    options: {
+      // Task-specific options go here.
+    },
+    your_target: {
+      // Target-specific file lists and/or options go here.
+    },
+  },
+});
+```
+
+### Options
+
+- options.browserNamespace
+- options.magicDo
+- options.noOpts
+- options.noPrelude
+- options.runtimeTypeChecks
+- options.tco
+
+These options have the same affect as described for the `purescript` task above.
 
 ### Usage examples
 
