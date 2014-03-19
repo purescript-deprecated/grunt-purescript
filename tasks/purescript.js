@@ -15,7 +15,6 @@ module.exports = function (grunt) {
         noOpts: "--no-opts",
         noPrelude: "--no-prelude",
         runtimeTypeChecks: "--runtime-type-checks",
-        make: "--make",
         tco: "--tco"
     };
 
@@ -26,35 +25,8 @@ module.exports = function (grunt) {
 
     var compile = function (dest, src, options, callback) {
     
-        var isMakeMode = options.make === true;
-        
-        // Use the input file list as the initial arguments
-        var args = src.filter(function (filepath) {
-            if (!grunt.file.exists(filepath)) {
-                grunt.log.warn("Source file \"" + filepath + "\" not found.");
-                return false;
-            } else {
-                return true;
-            }
-        });
-
-        // Add any option flags
-        for (var flag in flagOptions) {
-            if (flagOptions.hasOwnProperty(flag)) {
-                if (options[flag] === true) {
-                    args.push(flagOptions[flag]);
-                }
-            }
-        }
-
-        // Add any option arguments
-        for (var arg in argumentOptions) {
-            if (argumentOptions.hasOwnProperty(arg)) {
-                if (typeof options[arg] === "string") {
-                    args.push(argumentOptions[arg] + "=" + options[arg]);
-                }
-            }
-        }
+        // Get source file and common command line arguments
+        var args = getDefaultArgs(src, options);
 
         // Add modules to be kept after dead code elimination
         if (options.modules) {
@@ -90,15 +62,67 @@ module.exports = function (grunt) {
                 grunt.log.error(result.stdout);
                 callback(err);
             } else {
-                if (isMakeMode) {
-                    grunt.log.ok("Make was successful.");
-                } else {
-                    grunt.log.ok("Created file " + dest + ".");
-                }
+                grunt.log.ok("Created file " + dest + ".");
                 callback();
             }
         });
 
+    };
+
+    var make = function (src, options, callback) {
+    
+        // Get source file and common command line arguments
+        var args = getDefaultArgs(src, options);
+
+        // Run the compiler
+        return grunt.util.spawn({
+            cmd: "psc-make",
+            args: args,
+            options: { cwd: process.cwd() }
+        }, function (err, result) {
+            if (err) {
+                grunt.log.error("Make failed:");
+                grunt.log.error(result.stdout);
+                callback(err);
+            } else {
+                grunt.log.ok("Make was successful.");
+                callback();
+            }
+        });
+
+    };
+
+    var getDefaultArgs = function(src, options) {
+
+        // Use the input file list as the initial arguments
+        var args = src.filter(function (filepath) {
+            if (!grunt.file.exists(filepath)) {
+                grunt.log.warn("Source file \"" + filepath + "\" not found.");
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        // Add any option flags
+        for (var flag in flagOptions) {
+            if (flagOptions.hasOwnProperty(flag)) {
+                if (options[flag] === true) {
+                    args.push(flagOptions[flag]);
+                }
+            }
+        }
+
+        // Add any option arguments
+        for (var arg in argumentOptions) {
+            if (argumentOptions.hasOwnProperty(arg)) {
+                if (typeof options[arg] === "string") {
+                    args.push(argumentOptions[arg] + "=" + options[arg]);
+                }
+            }
+        }
+
+        return args;
     };
 
     grunt.registerMultiTask("purescript", "Compile PureScript files.", function () {
@@ -120,7 +144,27 @@ module.exports = function (grunt) {
         };
 
         compileNext();
+    });
 
+    grunt.registerMultiTask("purescript-make", "Compile PureScript files in make mode.", function () {
+
+        var options = this.options();
+
+        var callback = this.async();
+        var files = this.files;
+
+        var compileNext = function (err) {
+            if (err) {
+                callback(err);
+            } else if (files.length === 0) {
+                callback();
+            } else {
+                var file = files.pop();
+                make(file.src, options, compileNext);
+            }
+        };
+
+        compileNext();
     });
 
 };
