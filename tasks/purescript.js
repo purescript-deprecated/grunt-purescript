@@ -11,11 +11,11 @@
 module.exports = function (grunt) {
 
     var flagOptions = {
-        magicDo: "--magic-do",
-        noOpts: "--no-opts",
         noPrelude: "--no-prelude",
-        runtimeTypeChecks: "--runtime-type-checks",
-        tco: "--tco"
+        noOpts: "--no-opts",
+        noMagicDo: "--no-magic-do",
+        noTco: "--no-tco",
+        runtimeTypeChecks: "--runtime-type-checks"
     };
 
     var argumentOptions = {

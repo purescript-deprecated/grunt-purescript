@@ -3,7 +3,7 @@
 > Runs the [PureScript](https://github.com/purescript/purescript) compiler to produce JavaScript files.
 
 ## Getting started
-This plugin requires Grunt `~0.4.2` and [PureScript](http://hackage.haskell.org/package/purescript) `>=0.4.7`
+This plugin requires Grunt `~0.4.2` and [PureScript](http://hackage.haskell.org/package/purescript) `>=0.4.9`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -37,11 +37,17 @@ grunt.initConfig({
 
 ### Options
 
-#### options.browserNamespace
-Type: `String`
-Default value: `PS`
+#### options.main
+Type: `Boolean` or `String`
+Default value: `false`
 
-Invokes the `--browser-namespace` compiler flag with the specified argument. Specifies the namespace that PureScript modules will be exported to when running in the browser.
+Toggles the `--main` compiler flag. Can be set to `true` or the name of a module in which a `main` function resides. When enabled, a call to `main` will be added after all other generated JavaScript. When set to `true`, the module name will be assumed to be `Main`.
+
+#### options.modules
+Type: `String` or `Array`
+Default value: none
+
+Enables dead code elimination, ensuring that the named module (or list of modules) are included in the generated JavaScript, along with all their dependencies.
 
 #### options.codegen
 Type: `String` or `Array`
@@ -55,17 +61,11 @@ Default value: none
 
 Invokes the `--externs` compiler flag with the specified argument. Generates a `.e.ps` file for foreign imports.
 
-#### options.magicDo
-Type: `Boolean`
-Default value: `false`
+#### options.browserNamespace
+Type: `String`
+Default value: `PS`
 
-Toggles the `--magic-do` compiler flag. Overloads the `do` keyword to inline calls to `>>=` for the `Eff` monad to generate more efficient code when enabled.
-
-#### options.noOpts
-Type: `Boolean`
-Default value: `false`
-
-Toggles the `--no-opts` compiler flag. Skips the optimization phase for the generated JavaScript when enabled.
+Invokes the `--browser-namespace` compiler flag with the specified argument. Specifies the namespace that PureScript modules will be exported to when running in the browser.
 
 #### options.noPrelude
 Type: `Boolean`
@@ -73,29 +73,29 @@ Default value: `false`
 
 Toggles the `--no-prelude` compiler flag. Omits the Prelude from the generated JavaScript when enabled.
 
-#### options.main
-Type: `Boolean` or `String`
+#### options.noOpts
+Type: `Boolean`
 Default value: `false`
 
-Toggles the `--main` compiler flag. Can be set to `true` or the name of a module in which a `main` function resides. When enabled, a call to `main` will be added after all other generated JavaScript. When set to `true`, the module name will be assumed to be `Main`.
+Toggles the `--no-opts` compiler flag. Skips the optimization phase for the generated JavaScript when enabled.
 
-#### options.modules
-Type: `String` or `Array`
-Default value: none
+#### options.noMagicDo
+Type: `Boolean`
+Default value: `false`
 
-Enables dead code elimination, ensuring that the named module (or list of modules) are included in the generated JavaScript, along with all their dependencies.
+Toggles the `--no-magic-do` compiler flag. Disables overloading of the `do` keyword to inline calls to `>>=` for the `Eff` monad to generate more efficient code.
+
+#### options.noTco
+Type: `Boolean`
+Default value: `false`
+
+Toggles the `--no-tco` compiler flag. Disables tail-call elimination on the generated JavaScript.
 
 #### options.runtimeTypeChecks
 Type: `Boolean`
 Default value: `false`
 
 Toggles the `--runtime-type-checks` compiler flag. Generates simple runtime type checks for function arguments with simple types when enabled.
-
-#### options.tco
-Type: `Boolean`
-Default value: `false`
-
-Toggles the `--tco` compiler flag. Performs tail-call elimination on the generated JavaScript when enabled.
 
 ## The "purescript-make" task
 
@@ -120,11 +120,11 @@ grunt.initConfig({
 ### Options
 
 - options.browserNamespace
-- options.magicDo
-- options.noOpts
 - options.noPrelude
+- options.noOpts
+- options.noMagicDo
+- options.noTco
 - options.runtimeTypeChecks
-- options.tco
 
 These options have the same affect as described for the `purescript` task above.
 
