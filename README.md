@@ -59,7 +59,7 @@ Specifies which module(s) to include in the generated Javascript and externs fil
 Type: `String`
 Default value: none
 
-Invokes the `--externs` compiler flag with the specified argument. Generates a `.e.ps` file for foreign imports.
+Invokes the `--externs` compiler flag with the specified argument. Generates a `.externs` file for foreign imports.
 
 #### options.browserNamespace
 Type: `String`
