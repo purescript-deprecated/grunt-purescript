@@ -27,7 +27,7 @@ module.exports = function(grunt) {
             tests: ["tmp"],
         },
     
-        purescript: {
+        psc: {
             simpletest: {
                 files: {
                     "tmp/out.js": []
@@ -45,6 +45,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-contrib-nodeunit");
 
-    grunt.registerTask("test", ["clean", "purescript", "nodeunit"]);
+    grunt.registerTask("test", ["clean", "psc", "nodeunit"]);
     grunt.registerTask("default", ["jshint", "test"]);
 };

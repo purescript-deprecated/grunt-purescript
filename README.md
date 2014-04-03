@@ -3,7 +3,7 @@
 > Runs the [PureScript](https://github.com/purescript/purescript) compiler to produce JavaScript files.
 
 ## Getting started
-This plugin requires Grunt `~0.4.2` and [PureScript](http://hackage.haskell.org/package/purescript) `>=0.4.9`
+This plugin requires Grunt `~0.4.2` and [PureScript](http://hackage.haskell.org/package/purescript) `>=0.4.14`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -17,14 +17,14 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-purescript');
 ```
 
-## The "purescript" task
+## The "psc" task
 
 ### Overview
-In your project's Gruntfile, add a section named `purescript` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `psc` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  purescript: {
+  psc: {
     options: {
       // Task-specific options go here.
     },
@@ -97,22 +97,35 @@ Default value: `false`
 
 Toggles the `--runtime-type-checks` compiler flag. Generates simple runtime type checks for function arguments with simple types when enabled.
 
-## The "purescript-make" task
+## The "pscMake" task
 
 ### Overview
 This task runs the `psc-make` executable, which will compile modules to their own `.js` and `.externs` files in the `js/` and `externs/` folders respectively. This mode is useful when developing large libraries, since it avoids recompiling unchanged modules.
 
-In your project's Gruntfile, add a section named `purescript-make` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `pscMake` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  "purescript-make": {
+  pscMake: ["path/to/source/**/*.purs"]
     options: {
       // Task-specific options go here.
     },
     your_target: {
       // Target-specific file lists and/or options go here.
     },
+  },
+});
+```
+
+Or with options:
+
+```js
+grunt.initConfig({
+  pscMake: 
+    options: {
+      // Task-specific options go here.
+    },
+    src: ["path/to/source/**/*.purs"]
   },
 });
 ```
@@ -126,28 +139,19 @@ grunt.initConfig({
 - options.noTco
 - options.runtimeTypeChecks
 
-These options have the same affect as described for the `purescript` task above.
+These options have the same affect as described for the `psc` task above.
 
-### Usage examples
+## The "dotPsci" task
+
+### Overview
+This task generates or updates a `.psci` file in the current directory, adding `:m` commands for any files matching a list of source patterns.
 
 ```js
-purescript: {
-
-    compile: {
-        files: {
-            "path/to/purescript/output.js": "path/to/source/**/*.purs",
-        }
-    },
-
-    compileWithOptions: {
-        options: {
-            magicDo: true,
-            tco: true,
-            main: "App"
-        },
-        files: {
-            "path/to/purescript/output.js": "path/to/source/**/*.purs",
-        }
-    }
-}
+grunt.initConfig({
+  dotPsci: ["path/to/source/**/*.purs"]
+});
 ```
+
+### Options
+
+There are no options for `dotPsci`.

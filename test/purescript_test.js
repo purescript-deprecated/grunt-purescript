@@ -2,7 +2,7 @@
 
 var grunt = require("grunt");
 
-exports.purescript = {
+exports.psc = {
     basic: function (test) {
         test.expect(1);
         test.ok(grunt.file.exists("tmp/out.js"), "Output file does not exist");

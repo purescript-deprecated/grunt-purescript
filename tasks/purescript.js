@@ -32,21 +32,25 @@ module.exports = function (grunt) {
     
         // Get source file and common command line arguments
         var args = getDefaultArgs(src, options);
+        
+        var addModuleOption = function (mo) {
+            var option = options[mo];
+            if (option) {
+                var optionArg = moduleOptions[mo];
+                if (typeof option === "string") {
+                    args.push("--" + optionArg + "=" + option);
+                } else {
+                    option.forEach(function (module) {
+                        args.push("--" + optionArg + "=" + module);
+                    });
+                }
+            }
+        };
 
         // Add arguments that can accept a list of module names
         for (var mo in moduleOptions) {
             if (moduleOptions.hasOwnProperty(mo)) {
-                var option = options[mo];
-                if (option) {
-                    var optionArg = moduleOptions[mo];
-                    if (typeof option === "string") {
-                        args.push("--" + optionArg + "=" + option);
-                    } else {
-                        option.forEach(function (module) {
-                            args.push("--" + optionArg + "=" + module);
-                        });
-                    }
-                }
+                addModuleOption(mo);
             }
         }
 
@@ -74,29 +78,6 @@ module.exports = function (grunt) {
                 callback(err);
             } else {
                 grunt.log.ok("Created file " + dest + ".");
-                callback();
-            }
-        });
-
-    };
-
-    var make = function (src, options, callback) {
-    
-        // Get source file and common command line arguments
-        var args = getDefaultArgs(src, options);
-
-        // Run the compiler
-        return grunt.util.spawn({
-            cmd: "psc-make",
-            args: args,
-            options: { cwd: process.cwd() }
-        }, function (err, result) {
-            if (err) {
-                grunt.log.error("Make failed:");
-                grunt.log.error(result.stdout);
-                callback(err);
-            } else {
-                grunt.log.ok("Make was successful.");
                 callback();
             }
         });
@@ -136,10 +117,9 @@ module.exports = function (grunt) {
         return args;
     };
 
-    grunt.registerMultiTask("purescript", "Compile PureScript files.", function () {
+    grunt.registerMultiTask("psc", "Compile PureScript files.", function () {
 
         var options = this.options();
-
         var callback = this.async();
         var files = this.files;
 
@@ -157,25 +137,55 @@ module.exports = function (grunt) {
         compileNext();
     });
 
-    grunt.registerMultiTask("purescript-make", "Compile PureScript files in make mode.", function () {
-
-        var options = this.options();
-
+    grunt.registerMultiTask("pscMake", "Compile PureScript files in make mode.", function () {
+        
         var callback = this.async();
-        var files = this.files;
-
-        var compileNext = function (err) {
+        
+        // Get source file and common command line arguments
+        var args = getDefaultArgs(this.filesSrc, this.options());
+        
+        // Run the compiler
+        return grunt.util.spawn({
+            cmd: "psc-make",
+            args: args,
+            options: { cwd: process.cwd() }
+        }, function (err, result) {
             if (err) {
+                grunt.log.error("Make failed:");
+                grunt.log.error(result.stdout);
                 callback(err);
-            } else if (files.length === 0) {
-                callback();
             } else {
-                var file = files.pop();
-                make(file.src, options, compileNext);
+                grunt.log.ok("Make was successful.");
+                callback();
             }
-        };
-
-        compileNext();
+        });
+    });
+    
+    grunt.registerMultiTask("dotPsci", "Generate/update .psci file to load a set of modules on startup.", function () {
+        
+        var entries = [];
+        var isNew = true;
+        
+        try {
+            entries = grunt.file.read(".psci").split("\n");
+            isNew = false;
+        } catch (e) {
+            if (e.origError.code !== "ENOENT") {
+                grunt.log.error(e);
+                return;
+            }
+        }
+        
+        entries = entries.filter(function (entry) {
+            return entry.indexOf(":m") !== 0;
+        });
+        
+        entries = this.filesSrc.map(function (file) {
+            return ":m " + file;
+        }).concat(entries);
+        
+        grunt.file.write(".psci", entries.join("\n"), "utf8");
+        grunt.log.ok((isNew ? "Created" : "Updated") + " .psci file");
     });
 
 };
