@@ -100,20 +100,13 @@ Toggles the `--runtime-type-checks` compiler flag. Generates simple runtime type
 ## The "pscMake" task
 
 ### Overview
-This task runs the `psc-make` executable, which will compile modules to their own `.js` and `.externs` files in the `js/` and `externs/` folders respectively. This mode is useful when developing large libraries, since it avoids recompiling unchanged modules.
+This task runs the `psc-make` executable, which will compile modules to their own `.js` and `.externs` files. If no `dest` is specified the files will be generated in the `output/` folder. This mode is useful when developing large libraries, since it avoids recompiling unchanged modules.
 
 In your project's Gruntfile, add a section named `pscMake` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
   pscMake: ["path/to/source/**/*.purs"]
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
 });
 ```
 
@@ -126,6 +119,7 @@ grunt.initConfig({
       // Task-specific options go here.
     },
     src: ["path/to/source/**/*.purs"]
+    dest: "build"
   },
 });
 ```

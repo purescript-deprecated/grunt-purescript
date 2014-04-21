@@ -144,6 +144,10 @@ module.exports = function (grunt) {
         // Get source file and common command line arguments
         var args = getDefaultArgs(this.filesSrc, this.options());
         
+        if (this.data.dest) {
+          args.push("--output=" + this.data.dest);
+        }
+        
         // Run the compiler
         return grunt.util.spawn({
             cmd: "psc-make",
