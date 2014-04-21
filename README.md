@@ -104,22 +104,36 @@ This task runs the `psc-make` executable, which will compile modules to their ow
 
 In your project's Gruntfile, add a section named `pscMake` to the data object passed into `grunt.initConfig()`.
 
+Basic usage, generating the files in `output/`:
+
 ```js
 grunt.initConfig({
   pscMake: ["path/to/source/**/*.purs"]
 });
 ```
 
-Or with options:
+With options:
 
 ```js
 grunt.initConfig({
-  pscMake: 
+  pscMake: {
     options: {
       // Task-specific options go here.
     },
     src: ["path/to/source/**/*.purs"]
-    dest: "build"
+  },
+});
+```
+
+Or to specify an output folder a named target must be used (`lib` in this case):
+
+```js
+grunt.initConfig({
+  pscMake: {
+    lib: {
+      src: ["path/to/source/**/*.purs"],
+      dest: "build"
+    }
   },
 });
 ```
