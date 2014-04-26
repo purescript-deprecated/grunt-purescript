@@ -31,6 +31,7 @@ module.exports = function (grunt) {
                 grunt.log.error(result.stdout);
                 callback(err);
             } else {
+                grunt.file.write(dest, result);
                 grunt.log.ok("Created file " + dest + ".");
                 callback();
             }
@@ -41,7 +42,6 @@ module.exports = function (grunt) {
     grunt.registerMultiTask("docgen", "Generate markdown documentation for PureScript modules.", function () {
 
         var options = this.options();
-        var output = [];
         var callback = this.async();
         var files = this.files;
 
