@@ -163,3 +163,23 @@ grunt.initConfig({
 ### Options
 
 There are no options for `dotPsci`.
+
+## The "docgen" task
+
+### Overview
+This task generates a markdown file containing the generated documentation for any modules found in files in the source path.
+
+```js
+grunt.initConfig({
+  docgen: {
+    readme: {
+      src: "src/**/*.purs",
+      dest: "README.md"
+    }
+  }
+});
+```
+
+### Options
+
+There are no options for `docgen`.
