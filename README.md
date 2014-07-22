@@ -156,7 +156,9 @@ This task generates or updates a `.psci` file in the current directory, adding `
 
 ```js
 grunt.initConfig({
-  dotPsci: ["path/to/source/**/*.purs"]
+  dotPsci: {
+    src: ["path/to/source/**/*.purs"]
+  }
 });
 ```
 
