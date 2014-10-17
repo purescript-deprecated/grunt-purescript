@@ -1,7 +1,7 @@
 {
   "name": "grunt-purescript",
   "description": "Compile PureScript files.",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "homepage": "https://github.com/purescript/grunt-purescript",
   "author": {
     "name": "Gary Burgess",
