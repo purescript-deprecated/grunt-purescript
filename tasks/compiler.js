@@ -14,7 +14,8 @@ module.exports = function (grunt) {
         noPrelude: "--no-prelude",
         noOpts: "--no-opts",
         noMagicDo: "--no-magic-do",
-        noTco: "--no-tco"
+        noTco: "--no-tco",
+        verboseErrors: "--verbose-errors"
     };
 
     var argumentOptions = {

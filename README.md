@@ -91,6 +91,12 @@ Default value: `false`
 
 Toggles the `--no-tco` compiler flag. Disables tail-call elimination on the generated JavaScript.
 
+#### options.verboseErrors
+Type: `Boolean`
+Default value: `false`
+
+Toggles the `--verbose-errors` compiler flag. Generates verbose error messages.
+
 ## The "pscMake" task
 
 ### Overview
