@@ -91,12 +91,6 @@ Default value: `false`
 
 Toggles the `--no-tco` compiler flag. Disables tail-call elimination on the generated JavaScript.
 
-#### options.runtimeTypeChecks
-Type: `Boolean`
-Default value: `false`
-
-Toggles the `--runtime-type-checks` compiler flag. Generates simple runtime type checks for function arguments with simple types when enabled.
-
 ## The "pscMake" task
 
 ### Overview
@@ -145,9 +139,8 @@ grunt.initConfig({
 - options.noOpts
 - options.noMagicDo
 - options.noTco
-- options.runtimeTypeChecks
 
-These options have the same affect as described for the `psc` task above.
+These options have the same effect as described for the `psc` task above.
 
 ## The "dotPsci" task
 

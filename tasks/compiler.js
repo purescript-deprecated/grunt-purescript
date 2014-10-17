@@ -14,8 +14,7 @@ module.exports = function (grunt) {
         noPrelude: "--no-prelude",
         noOpts: "--no-opts",
         noMagicDo: "--no-magic-do",
-        noTco: "--no-tco",
-        runtimeTypeChecks: "--runtime-type-checks"
+        noTco: "--no-tco"
     };
 
     var argumentOptions = {
