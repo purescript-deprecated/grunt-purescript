@@ -10,12 +10,12 @@
 
 var compilerTasks = require("./compiler");
 var psciTask = require("./psci");
-var docgenTask = require("./docgen");
+var docsTask = require("./docs");
 
 module.exports = function (grunt) {
 
     compilerTasks(grunt);
     psciTask(grunt);
-    docgenTask(grunt);
+    docsTask(grunt);
 
 };

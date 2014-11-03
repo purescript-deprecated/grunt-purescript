@@ -21,11 +21,7 @@ module.exports = function (grunt) {
             }
         });
         
-        return grunt.util.spawn({
-            cmd: "docgen",
-            args: args,
-            options: { cwd: process.cwd() }
-        }, function (err, result) {
+        var handler = function (err, result) {
             if (err) {
                 grunt.log.error("Error creating file " + dest);
                 grunt.log.error(result.stdout);
@@ -35,11 +31,30 @@ module.exports = function (grunt) {
                 grunt.log.ok("Created file " + dest + ".");
                 callback();
             }
+        };
+        
+        return grunt.util.spawn({
+            cmd: "psc-docs",
+            args: args,
+            options: { cwd: process.cwd() }
+        }, function (err, result) {
+            var msg = err.toString();
+            if (msg.indexOf("not found") !== -1 && msg.indexOf("psc-docs") !== -1) {
+                return grunt.util.spawn({
+                    cmd: "docgen",
+                    args: args,
+                    options: { cwd: process.cwd() }
+                }, function (err, result) {
+                    grunt.log.warn("Used deprecated 'docgen' executable rather than 'psc-docs'. Please update your PureScript compiler.");
+                    return handler(err, result);
+                });
+            }
+            return handler(err, result);
         });
 
     };
-
-    grunt.registerMultiTask("docgen", "Generate markdown documentation for PureScript modules.", function () {
+    
+    var runTask = function () {
 
         var options = this.options();
         var callback = this.async();
@@ -57,6 +72,13 @@ module.exports = function (grunt) {
         };
 
         compileNext();
+    };
+
+    grunt.registerMultiTask("docgen", "Generate markdown documentation for PureScript modules.", function () {
+        grunt.log.warn("The PureScript 'docgen' task is deprecated, please use 'pscDocs'.");
+        runTask.call(this);
     });
+    
+    grunt.registerMultiTask("pscDocs", "Generate markdown documentation for PureScript modules.", runTask);
 
 };
