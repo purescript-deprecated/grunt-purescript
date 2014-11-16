@@ -38,16 +38,18 @@ module.exports = function (grunt) {
             args: args,
             options: { cwd: process.cwd() }
         }, function (err, result) {
-            var msg = err.toString();
-            if (msg.indexOf("not found") !== -1 && msg.indexOf("psc-docs") !== -1) {
-                return grunt.util.spawn({
-                    cmd: "docgen",
-                    args: args,
-                    options: { cwd: process.cwd() }
-                }, function (err, result) {
-                    grunt.log.warn("Used deprecated 'docgen' executable rather than 'psc-docs'. Please update your PureScript compiler.");
-                    return handler(err, result);
-                });
+            if (err) {
+                var msg = err.toString();
+                if (msg.indexOf("not found") !== -1 && msg.indexOf("psc-docs") !== -1) {
+                    return grunt.util.spawn({
+                        cmd: "docgen",
+                        args: args,
+                        options: { cwd: process.cwd() }
+                    }, function (err, result) {
+                        grunt.log.warn("Used deprecated 'docgen' executable rather than 'psc-docs'. Please update your PureScript compiler.");
+                        return handler(err, result);
+                    });
+                }
             }
             return handler(err, result);
         });
