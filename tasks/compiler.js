@@ -22,26 +22,26 @@ module.exports = function (grunt) {
         browserNamespace: "--browser-namespace",
         externs: "--externs"
     };
-    
+
     var moduleOptions = {
         modules: "module",
         codegen: "codegen"
     };
 
     var compile = function (dest, src, options, callback) {
-    
+
         // Get source file and common command line arguments
         var args = getDefaultArgs(src, options);
-        
+
         var addModuleOption = function (mo) {
             var option = options[mo];
             if (option) {
                 var optionArg = moduleOptions[mo];
                 if (typeof option === "string") {
-                    args.push("--" + optionArg + "=" + option);
+                    args.push("--" + optionArg + " " + option);
                 } else {
                     option.forEach(function (module) {
-                        args.push("--" + optionArg + "=" + module);
+                        args.push("--" + optionArg + " " + module);
                     });
                 }
             }
@@ -59,12 +59,12 @@ module.exports = function (grunt) {
             if (options.main === true) {
                 args.push("--main");
             } else {
-                args.push("--main=" + options.main);
+                args.push("--main " + options.main);
             }
         }
 
         // Add the destination file output argument
-        args.push("--output=" + dest);
+        args.push("--output " + dest);
 
         // Run the compiler
         return grunt.util.spawn({
@@ -109,7 +109,7 @@ module.exports = function (grunt) {
         for (var arg in argumentOptions) {
             if (argumentOptions.hasOwnProperty(arg)) {
                 if (typeof options[arg] === "string") {
-                    args.push(argumentOptions[arg] + "=" + options[arg]);
+                    args.push(argumentOptions[arg] + " " + options[arg]);
                 }
             }
         }
@@ -138,16 +138,16 @@ module.exports = function (grunt) {
     });
 
     grunt.registerMultiTask("pscMake", "Compile PureScript files in make mode.", function () {
-        
+
         var callback = this.async();
-        
+
         // Get source file and common command line arguments
         var args = getDefaultArgs(this.filesSrc, this.options());
-        
+
         if (this.data.dest) {
-            args.push("--output=" + this.data.dest);
+            args.push("--output " + this.data.dest);
         }
-        
+
         // Run the compiler
         return grunt.util.spawn({
             cmd: "psc-make",
