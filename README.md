@@ -3,7 +3,7 @@
 > Runs the [PureScript](https://github.com/purescript/purescript) compiler to produce JavaScript files.
 
 ## Getting started
-This plugin requires Grunt `~0.4.2` and [PureScript](http://hackage.haskell.org/package/purescript) `>=0.6.0`
+This plugin requires Grunt `~0.4.2` and [PureScript](http://hackage.haskell.org/package/purescript) `>=0.7.0`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -168,14 +168,22 @@ There are no options for `dotPsci`.
 ## The "pscDocs" task
 
 ### Overview
-This task generates a markdown file containing the generated documentation for any modules found in files in the source path.
+This task generates a markdown file containing the generated documentation for
+each specified target module.
+
+For example, the following configuration will produce documentation for the
+modules `Data.Int` and `Data.Int.Bits`, and write documentation for each
+into `docs/Data.Int.md` and `docs/Data.Int.Bits.md` respectively.
 
 ```js
 grunt.initConfig({
   pscDocs: {
-    readme: {
-      src: "src/**/*.purs",
-      dest: "README.md"
+    src: ["src/**/*.purs", "bower_components/*/src/**/*.purs"],
+    options: {
+      docgen: {
+        "Data.Int": "docs/Data.Int.md",
+        "Data.Int.Bits": "docs/Data.Int.Bits.md"
+      }
     }
   }
 });
