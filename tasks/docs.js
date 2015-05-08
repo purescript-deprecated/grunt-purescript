@@ -11,7 +11,7 @@
 module.exports = function (grunt) {
 
     var compile = function (dest, src, options, callback) {
-    
+
         var args = src.filter(function (filepath) {
             if (!grunt.file.exists(filepath)) {
                 grunt.log.warn("Source file \"" + filepath + "\" not found.");
@@ -20,7 +20,7 @@ module.exports = function (grunt) {
                 return true;
             }
         });
-        
+
         return grunt.util.spawn({
             cmd: "psc-docs",
             args: args,
