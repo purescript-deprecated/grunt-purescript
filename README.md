@@ -1,8 +1,14 @@
 # grunt-purescript
 
 **This project is currently not maintained, and does not work with the current
-PureScript compiler. You probably want [Pulp](https://github.com/bodil/pulp)
-instead.**
+PureScript compiler. You probably want one of the following instead:**
+
+* [Pulp](https://github.com/bodil/pulp) is probably the most commonly used
+  PureScript build tool at the moment.
+* [gulp-purescript](https://github.com/purescript-contrib/gulp-purescript) may
+  be useful when your project structure or build process is non-standard.
+
+---
 
 > Runs the [PureScript](https://github.com/purescript/purescript) compiler to produce JavaScript files.
 
