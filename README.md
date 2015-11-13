@@ -1,9 +1,13 @@
 # grunt-purescript
 
+**This project is currently not maintained, and does not work with the current
+PureScript compiler. You probably want [Pulp](https://github.com/bodil/pulp)
+instead.**
+
 > Runs the [PureScript](https://github.com/purescript/purescript) compiler to produce JavaScript files.
 
 ## Getting started
-This plugin requires Grunt `~0.4.2` and [PureScript](http://hackage.haskell.org/package/purescript) `>=0.6.0`
+This plugin requires Grunt `~0.4.2` and [PureScript](http://hackage.haskell.org/package/purescript) `==0.6.*`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
